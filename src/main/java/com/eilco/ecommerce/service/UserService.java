@@ -2,8 +2,10 @@ package com.eilco.ecommerce.service;
 
 import com.eilco.ecommerce.dto.UserRequest;
 import com.eilco.ecommerce.dto.UserResponse;
+import com.eilco.ecommerce.model.entities.CustomerUserDetails;
 import com.eilco.ecommerce.model.entities.User;
 import com.eilco.ecommerce.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,8 +18,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public UserResponse createUser(UserRequest userRequest) {
         User user = convertUserRequestToUser(userRequest);
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // Encode the password
         User savedUser = userRepository.save(user);
         return convertUserToUserResponse(savedUser);
     }
@@ -30,46 +36,45 @@ public class UserService {
     }
 
     public UserResponse findUserById(Long id) {
-        User user = userRepository.findById(id)
+        User user = userRepository.findById(id.intValue())
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
         return convertUserToUserResponse(user);
     }
 
     public UserResponse updateUser(Long id, UserRequest userRequest) {
-        User existingUser = userRepository.findById(id)
+        User existingUser = userRepository.findById(id.intValue())
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
 
-        existingUser.setUserName(userRequest.getUserName());
-        existingUser.setEmail(userRequest.getEmail());
-        existingUser.setPassword(userRequest.getPassword());
-        existingUser.setAddress(userRequest.getAddress());
-        existingUser.setPhoneNumber(userRequest.getPhoneNumber());
+        User updatedUser = User.builder()
+                .id(existingUser.getId())
+                .username(existingUser.getUsername()) // Retain existing ID
+                .password(passwordEncoder.encode(userRequest.getPassword()))
+                .role(existingUser.getRole()) // Retain existing role
+                .build();
 
-        User updatedUser = userRepository.save(existingUser);
+        updatedUser = userRepository.save(updatedUser);
         return convertUserToUserResponse(updatedUser);
     }
 
+
     public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
+        userRepository.deleteById(id.intValue());
     }
 
     private User convertUserRequestToUser(UserRequest userRequest) {
         return User.builder()
-                .userName(userRequest.getUserName())
-                .email(userRequest.getEmail())
+                .username(userRequest.getUserName())
                 .password(userRequest.getPassword())
-                .address(userRequest.getAddress())
-                .phoneNumber(userRequest.getPhoneNumber())
+                .role(userRequest.getRole()) // Map role
                 .build();
     }
 
     private UserResponse convertUserToUserResponse(User user) {
         UserResponse userResponse = new UserResponse();
-        userResponse.setId(user.getUserId());
-        userResponse.setUserName(user.getUserName());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setAddress(user.getAddress());
-        userResponse.setPhoneNumber(user.getPhoneNumber());
+        userResponse.setId(user.getId());
+        userResponse.setUserName(user.getFirstName());
+        userResponse.setRole(user.getRole());
         return userResponse;
     }
+
 }

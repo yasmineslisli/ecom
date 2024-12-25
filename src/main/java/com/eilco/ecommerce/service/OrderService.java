@@ -25,7 +25,7 @@ public class OrderService {
 
     public OrderResponse createOrder(OrderRequest orderRequest) {
         // Find the user by ID
-        User user = userRepository.findById(orderRequest.getUserId())
+        User user = userRepository.findById(orderRequest.getUserId().intValue())
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + orderRequest.getUserId()));
 
         // Validate product availability
@@ -65,8 +65,8 @@ public class OrderService {
 
     private OrderResponse convertOrderToResponse(Order order) {
         return OrderResponse.builder()
-                .id(order.getOrderId())
-                .userId(order.getUser().getUserId())
+                .id(order.getOrderId().intValue())
+                .userId(order.getUser().getId())
                 .orderDate(order.getOrderDate())
                 .totalAmount(order.getTotalAmount())
                 .items(order.getOrderItems().stream().map(this::convertOrderItemToResponse).collect(Collectors.toList()))

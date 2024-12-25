@@ -12,8 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class OrderResponse {
-    private Long id;
-    private Long userId;
+    private int id;
+    private int userId;
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
     private List<OrderItemResponse> items;
