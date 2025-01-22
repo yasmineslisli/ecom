@@ -2,9 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
 </head>
 <body>
-<h1>Hello World!</h1>
+<h1>User Registration</h1>
+<form action="/register" method="post">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" required><br><br>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" required><br><br>
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <label for="role">Role:</label>
+    <select id="role" name="role" required>
+        <option value="USER">User</option>
+        <option value="ADMIN">Admin</option>
+    </select><br><br>
+
+    <button type="submit">Register</button>
+</form>
 </body>
 </html>

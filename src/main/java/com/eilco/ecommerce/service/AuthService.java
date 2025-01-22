@@ -69,12 +69,18 @@ public class AuthService {
     }
 
     public AuthResponse authenticate(User request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the actual error for debugging
+            throw new RuntimeException("Authentication failed", e);
+        }
+
 
         User user = repository.findByUsername(request.getUsername()).orElseThrow();
         String accessToken = jwtService.generateAccessToken(user);
@@ -141,4 +147,10 @@ public class AuthService {
         return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 
     }
+
+    public User getUserDetails(String username) {
+        return repository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé."));
+    }
+
 }

@@ -41,12 +41,14 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        req->req.requestMatchers("/login/**","/register/**", "/refresh_token/**")
-                                .permitAll()
+                        req -> req
+                                .requestMatchers("/", "/index", "/css/**", "/js/**", "/images/**").permitAll()
+                                .requestMatchers("/login/**", "/register/**", "/refresh_token/**").permitAll()
                                 .requestMatchers("/admin_only/**").hasAuthority("ADMIN")
                                 .anyRequest()
                                 .authenticated()
-                ).userDetailsService(userDetailsServiceImp)
+                )
+                .userDetailsService(userDetailsServiceImp)
                 .sessionManagement(session->session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
