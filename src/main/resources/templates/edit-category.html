@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Edit Category</title>
+</head>
+<body>
+
+<h2>Edit Category</h2>
+
+<form th:object="${category}" th:action="@{/categories/{id}/update(id=${category.id})}" method="post">
+  <!-- Hidden field to allow PUT requests -->
+  <input type="hidden" name="_method" value="put"/>
+
+  <label for="name">Category Name:</label>
+  <input type="text" id="name" th:field="*{name}" required />
+
+  <label for="description">Description:</label>
+  <input type="text" id="description" th:field="*{description}" required />
+
+  <button type="submit">Update Category</button>
+</form>
+
+
+<a href="/categories/category-list">Back to Category List</a>
+
+</body>
+</html>

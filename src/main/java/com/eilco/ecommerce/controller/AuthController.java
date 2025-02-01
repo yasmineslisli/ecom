@@ -1,5 +1,6 @@
 package com.eilco.ecommerce.controller;
 
+import jakarta.servlet.http.Cookie;
 import org.springframework.ui.Model;
 import com.eilco.ecommerce.dto.AuthResponse;
 import com.eilco.ecommerce.model.entities.User;
@@ -42,11 +43,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute User user, Model model) {
+    public String login(@ModelAttribute User user, Model model, HttpServletResponse response) {
         try {
             AuthResponse authResponse = authService.authenticate(user);
 
             User authenticatedUser = authService.getUserDetails(user.getUsername());
+
+            // Store JWT in a cookie
+            Cookie jwtCookie = new Cookie("jwt", authResponse.getAccessToken());
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setPath("/");
+            response.addCookie(jwtCookie);
 
             model.addAttribute("firstName", authenticatedUser.getFirstName());
             model.addAttribute("lastName", authenticatedUser.getLastName());
@@ -61,10 +68,8 @@ public class AuthController {
     }
 
     @PostMapping("/refresh_token")
-    public ResponseEntity refreshToken(
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) {
+    public ResponseEntity<AuthResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         return authService.refreshToken(request, response);
     }
+
 }

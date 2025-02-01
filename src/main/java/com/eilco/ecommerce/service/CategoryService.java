@@ -37,6 +37,9 @@ public class CategoryService {
     public Optional<Category> findById(Long id){
         return repository.findById(id);
     }
+    public List<Category> getAllCategories() {
+        return repository.findAll();
+    }
 
     private Category convertCategoryRequestToCategory(CategoryRequest categoryRequest, Long id){
         return Category.builder()
