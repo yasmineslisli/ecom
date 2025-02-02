@@ -25,9 +25,28 @@ public class ProductService {
     }
 
     public ProductResponse update(ProductRequest productRequest, Long id) {
-        Product product = convertProductRequestToProduct(productRequest, id);
-        return convertProductToResponse(productRepository.save(product));
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        // Update fields while preserving the existing entity references
+        existingProduct.setName(productRequest.getName());
+        existingProduct.setDescription(productRequest.getDescription());
+        existingProduct.setPrice(productRequest.getPrice());
+        existingProduct.setQuantity(productRequest.getQuantity());
+        existingProduct.setActive(productRequest.isActive());
+        existingProduct.setImageurl(productRequest.getImageurl());
+
+        // Update the category reference properly
+        if (productRequest.getCategoryId() != null) {
+            Category category = categoryRepository.findById(productRequest.getCategoryId())
+                    .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+            existingProduct.setCategory(category);
+        }
+
+        productRepository.save(existingProduct);
+        return convertProductToResponse(existingProduct);
     }
+
 
     public List<Product> findAll() {
         return productRepository.findAll();
@@ -67,6 +86,7 @@ public class ProductService {
                 .quantity(product.getQuantity())
                 .active(product.isActive())
                 .categoryName(product.getCategory() != null ? product.getCategory().getName() : null)
+                .categoryId(product.getCategory().getId())
                 .build();
     }
 }

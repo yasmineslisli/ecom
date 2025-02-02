@@ -3,6 +3,7 @@ import com.eilco.ecommerce.filter.JwtAuthenticationFilter;
 import com.eilco.ecommerce.service.UserDetailsServiceImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -47,8 +48,7 @@ public class SecurityConfig {
                         req -> req
                                 .requestMatchers("/", "/index", "/css/**", "/js/**", "/images/**").permitAll()
                                 .requestMatchers("/login/**", "/register/**", "/refresh_token/**").permitAll()
-                                .requestMatchers("/categories/categoryForm", "/categories/category-list","/categories/**").permitAll()
-                                .requestMatchers("/categories/{id}/edit").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/categories/**","/products/**").authenticated()
                                 .anyRequest()
                                 .authenticated()
                 )

@@ -2,53 +2,71 @@ package com.eilco.ecommerce.controller;
 
 import com.eilco.ecommerce.dto.ProductRequest;
 import com.eilco.ecommerce.dto.ProductResponse;
+import com.eilco.ecommerce.model.entities.Category;
+import com.eilco.ecommerce.service.CategoryService;
 import com.eilco.ecommerce.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("api/product")
+@Controller
+@RequestMapping("/products")
 public class ProductController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProductResponse addProduct(@RequestBody ProductRequest productRequest) {
-        return productService.save(productRequest);
+    @GetMapping("/add")
+    public String showAddProductForm(Model model) {
+        model.addAttribute("product", new ProductRequest());
+        model.addAttribute("categories", categoryService.findAll()); // Pass categories to the form
+        return "add-product";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") Long id) {
-        return productService.findById(id)
-                .map(productService::convertProductToResponse)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @PostMapping("/add")
+    public String addProduct(@ModelAttribute("product") ProductRequest productRequest) {
+        productService.save(productRequest);
+        return "redirect:/products/product-list";
     }
 
-    @GetMapping
-    public List<ProductResponse> list() {
-        return productService.findAll().stream()
+    @GetMapping("/product-list")
+    public String showProducts(Model model) {
+        List<ProductResponse> products = productService.findAll().stream()
                 .map(productService::convertProductToResponse)
                 .toList();
+        model.addAttribute("products", products);
+        return "product-list";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> updateProduct(@RequestBody ProductRequest productRequest, @PathVariable("id") Long id) {
-        if (productService.findById(id).isPresent()) {
-            return ResponseEntity.ok(productService.update(productRequest, id));
+    @GetMapping("/{id}/edit")
+    public String showEditProductForm(@PathVariable("id") Long id, Model model) {
+        Optional<ProductResponse> productResponse = productService.findById(id)
+                .map(productService::convertProductToResponse);
+
+        if (productResponse.isPresent()) {
+            model.addAttribute("product", productResponse.get());
+            model.addAttribute("categories", categoryService.findAll());
+            return "edit-product";
         }
-        return ResponseEntity.notFound().build();
+        return "redirect:/products/product-list";
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@PathVariable("id") Long id) {
+    @PostMapping("/{id}/update")
+    public String updateProduct(@PathVariable("id") Long id,
+                                @ModelAttribute ProductRequest productRequest) {
+        productRequest.setId(id);
+        productService.update(productRequest, id);
+        return "redirect:/products/product-list";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteProduct(@PathVariable("id") Long id) {
         productService.deleteById(id);
+        return "redirect:/products/product-list";
     }
 }
