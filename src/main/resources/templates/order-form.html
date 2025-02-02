@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create Order</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h2>Create a New Order</h2>
+<form action="/orders/create" method="post">
+  <!-- Hidden field to store authenticated user ID -->
+  <input type="hidden" name="userId" th:value="${userId}">
+
+  <h3>Order Items</h3>
+  <div id="orderItems">
+    <div>
+      <label for="product">Select Product:</label>
+      <select id="product" name="items[0].productId" required>
+        <option th:each="product : ${products}"
+                th:value="${product.id}"
+                th:text="${product.name}">
+        </option>
+      </select>
+
+      <label>Quantity:</label>
+      <input type="number" name="items[0].quantity" min="1" required>
+    </div>
+  </div>
+
+  <button type="submit">Submit Order</button>
+</form>
+</body>
+</html>

@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers("/", "/index", "/css/**", "/js/**", "/images/**").permitAll()
                                 .requestMatchers("/login/**", "/register/**", "/refresh_token/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/categories/**","/products/**").authenticated()
+                                .requestMatchers("/orders/create").authenticated()
                                 .anyRequest()
                                 .authenticated()
                 )

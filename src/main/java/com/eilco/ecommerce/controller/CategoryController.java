@@ -16,28 +16,24 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    // Show form for adding a new category
     @GetMapping("/add")
     public String showAddCategoryForm(Model model) {
         model.addAttribute("category", new CategoryRequest());
         return "add-category";  // Separate view for adding categories
     }
 
-    // Handle adding a category
     @PostMapping("/add")
     public String addCategory(@ModelAttribute("category") CategoryRequest categoryRequest) {
         categoryService.save(categoryRequest);
         return "redirect:/categories/category-list";
     }
 
-    // Show category list
     @GetMapping("/category-list")
     public String showCategories(Model model) {
         model.addAttribute("categories", categoryService.getAllCategories());
         return "category-list";
     }
 
-    // Show form for editing an existing category
     @GetMapping("/{id}/edit")
     public String showEditCategoryForm(@PathVariable("id") Long id, Model model) {
         Optional<Category> category = categoryService.findById(id);
@@ -52,7 +48,6 @@ public class CategoryController {
         return "redirect:/categories/category-list";
     }
 
-    // Handle updating a category using PUT
     @PutMapping("/{id}/update")
     public String updateCategory(@PathVariable("id") Long id,
                                  @ModelAttribute CategoryRequest categoryRequest) {
@@ -61,7 +56,6 @@ public class CategoryController {
         return "redirect:/categories/category-list";
     }
 
-    // Handle deleting a category
     @GetMapping("/{id}/delete")
     public String deleteCategory(@PathVariable("id") Long id) {
         categoryService.deleteById(id);

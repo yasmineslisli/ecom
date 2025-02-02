@@ -152,5 +152,10 @@ public class AuthService {
         return repository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé."));
     }
+    public Long getUserIdByUsername(String username) {
+        return Long.valueOf(repository.findByUsername(username)
+                .map(User::getId)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username)));
+    }
 
 }
