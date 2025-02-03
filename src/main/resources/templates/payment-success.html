@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Payment Success</title>
+</head>
+<body>
+<h2>Payment Successful!</h2>
+<p>Thank you for your payment for Order <span th:text="${order.orderId}"></span>.</p>
+<p>Total Amount Paid: <span th:text="${order.totalAmount}"></span></p>
+<p>Payment Status: <strong>PAID</strong></p>
+
+<a href="/orders">Return to Orders</a>
+</body>
+</html>

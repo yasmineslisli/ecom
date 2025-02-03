@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,7 +64,7 @@ public class PaymentDetailsService {
                 .order(order)
                 .paymentType(request.getPaymentType())
                 .paymentStatus(request.getPaymentStatus())
-                .paymentDate(request.getPaymentDate())
+                .paymentDate(request.getPaymentDate() != null ? request.getPaymentDate() : LocalDateTime.now())
                 .build();
     }
 

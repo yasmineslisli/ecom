@@ -43,7 +43,7 @@ public class CategoryController {
             categoryRequest.setName(category.get().getName());
             categoryRequest.setDescription(category.get().getDescription());
             model.addAttribute("category", categoryRequest);
-            return "edit-category";  // Separate view for editing categories
+            return "edit-category";
         }
         return "redirect:/categories/category-list";
     }

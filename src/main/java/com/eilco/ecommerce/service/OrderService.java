@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,6 +56,7 @@ public class OrderService {
                 .orderItems(orderItems)
                 .orderDate(LocalDateTime.now())
                 .totalAmount(totalAmount)
+                .status(OrderStatus.PENDING)
                 .build();
 
         orderItems.forEach(item -> item.setOrder(order));
@@ -81,4 +83,46 @@ public class OrderService {
                 .price(item.getPrice())
                 .build();
     }
+
+    public List<OrderResponse> getOrdersByUserId(Long userId) {
+        List<Order> orders = orderRepository.findByUserId(userId);
+
+        return orders.stream().map(order -> {
+            List<OrderItemResponse> itemResponses = order.getOrderItems().stream()
+                    .map(item -> new OrderItemResponse(
+                            item.getProduct().getId(), // Add the product ID
+                            item.getProduct().getName(),
+                            item.getQuantity(),
+                            item.getPrice()))
+                    .collect(Collectors.toList());
+
+            return OrderResponse.builder()
+                    .id(order.getOrderId().intValue())
+                    .userId(order.getUser().getId())
+                    .orderDate(order.getOrderDate())
+                    .totalAmount(order.getTotalAmount())
+                    .items(itemResponses)
+                    .status(order.getStatus())
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+
+
+    public void validateOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + orderId));
+
+        if (!order.getStatus().equals(OrderStatus.PENDING)) {
+            throw new IllegalStateException("Order is already validated or paid.");
+        }
+
+        order.setStatus(OrderStatus.VALIDATED);
+        orderRepository.save(order);
+    }
+
+    public Optional<Order> findById(Long orderId) {
+        return orderRepository.findById(orderId);
+    }
+
 }

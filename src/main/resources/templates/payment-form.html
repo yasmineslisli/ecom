@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Payment Form</title>
+</head>
+<body>
+<h2>Payment for Order <span th:text="${order.orderId}"></span></h2>
+
+<form th:action="@{/orders/payment}" method="post">
+  <input type="hidden" name="orderId" th:value="${order.orderId}" />
+
+  <label for="paymentType">Payment Type:</label>
+  <select name="paymentType" id="paymentType" required>
+    <option value="CREDIT_CARD">Credit Card</option>
+    <option value="PAYPAL">PayPal</option>
+  </select>
+
+
+
+  <button type="submit">Submit Payment</button>
+</form>
+</body>
+</html>

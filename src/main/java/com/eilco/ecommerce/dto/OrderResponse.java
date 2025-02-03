@@ -1,5 +1,6 @@
 package com.eilco.ecommerce.dto;
 
+import com.eilco.ecommerce.model.entities.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,5 @@ public class OrderResponse {
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
     private List<OrderItemResponse> items;
+    private OrderStatus status;
 }

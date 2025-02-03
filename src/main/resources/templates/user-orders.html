@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>My Orders</title>
+</head>
+<body>
+<h2>My Orders</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Order ID</th>
+    <th>Total Amount</th>
+    <th>Status</th>
+    <th>Actions</th>
+    <th>Order Items</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="order : ${orders}">
+    <td th:text="${order.id}"></td>
+    <td th:text="${order.totalAmount}"></td>
+    <td th:text="${order.status}"></td>
+    <td>
+      <a th:href="@{/orders/paymentform(orderId=${order.id})}">Pay Now</a> <!-- Use a link with GET method -->
+    </td>
+    <td>
+      <ul>
+        <li th:each="item : ${order.items}">
+          <span th:text="'Product: ' + ${item.productName}"></span><br>
+          <span th:text="'Quantity: ' + ${item.quantity}"></span><br>
+          <span th:text="'Price: ' + ${item.price}"></span><br>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

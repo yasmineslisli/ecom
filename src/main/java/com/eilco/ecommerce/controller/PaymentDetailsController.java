@@ -18,10 +18,12 @@ public class PaymentDetailsController {
     private final PaymentDetailsService paymentDetailsService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public PaymentDetailsResponse addPaymentDetails(@RequestBody PaymentDetailsRequest request) {
-        return paymentDetailsService.save(request);
+    public String addPaymentDetails(@ModelAttribute PaymentDetailsRequest request) {
+        PaymentDetailsResponse response = paymentDetailsService.save(request);
+
+        return "redirect:/orders/success/" + response.getOrderId();
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<PaymentDetailsResponse> getPaymentDetails(@PathVariable Long id) {
