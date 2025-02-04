@@ -21,8 +21,9 @@
     <td th:text="${order.totalAmount}"></td>
     <td th:text="${order.status}"></td>
     <td>
-      <a th:href="@{/orders/paymentform(orderId=${order.id})}">Pay Now</a> <!-- Use a link with GET method -->
+      <a th:if="${order.status.toString() != 'PAID'}" th:href="@{/orders/paymentform(orderId=${order.id})}">Pay Now</a>
     </td>
+
     <td>
       <ul>
         <li th:each="item : ${order.items}">

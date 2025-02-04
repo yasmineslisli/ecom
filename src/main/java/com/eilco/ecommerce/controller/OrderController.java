@@ -92,9 +92,10 @@ public class OrderController {
         Order order = orderService.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + orderId));
 
-        model.addAttribute("order", order);
-        return "payment-success"; // Make sure this template exists
+        model.addAttribute("order", order); // Ensure order is in the model
+        return "payment-success"; // Ensure the template exists
     }
+
 
 
 

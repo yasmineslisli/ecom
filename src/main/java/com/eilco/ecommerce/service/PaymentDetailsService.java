@@ -3,6 +3,7 @@ package com.eilco.ecommerce.service;
 import com.eilco.ecommerce.dto.PaymentDetailsRequest;
 import com.eilco.ecommerce.dto.PaymentDetailsResponse;
 import com.eilco.ecommerce.model.entities.Order;
+import com.eilco.ecommerce.model.entities.OrderStatus;
 import com.eilco.ecommerce.model.entities.PaymentDetails;
 import com.eilco.ecommerce.model.entities.Product;
 import com.eilco.ecommerce.repository.OrderRepository;
@@ -30,8 +31,10 @@ public class PaymentDetailsService {
 
         PaymentDetails savedPayment = paymentDetailsRepository.save(paymentDetails);
 
-        if ("DONE".equalsIgnoreCase(request.getPaymentStatus())) {
+        if ("PAID".equalsIgnoreCase(request.getPaymentStatus())) {
             updateProductQuantities(paymentDetails.getOrder());
+            paymentDetails.getOrder().setStatus(OrderStatus.PAID);
+            orderRepository.save(paymentDetails.getOrder());
         }
 
         return convertEntityToResponse(savedPayment);

@@ -18,7 +18,9 @@
     <span th:text="${item.price}"></span> €
   </li>
 </ul>
+<a th:href="@{/orders/paymentform(orderId=${orderResponse.id})}">Pay Now</a>
 
 <a href="/orders/create">Place Another Order</a>
+
 </body>
 </html>
