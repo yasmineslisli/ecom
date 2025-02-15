@@ -2,9 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Create Order</title>
-  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div class="navbar">
+  <div class="user-info">
+    Welcome, <span th:text="${firstName}">[First Name]</span> <span th:text="${lastName}">[Last Name]</span>!
+  </div>
+  <div class="nav-links">
+    <a href="/categories/category-list">Categories</a>
+    <a href="/products/product-list">Products</a>
+    <a href="/logout">Logout</a>
+  </div>
+</div>
 <h2>Create a New Order</h2>
 <form action="/orders/create" method="post">
   <!-- Hidden field to store authenticated user ID -->

@@ -43,6 +43,15 @@ public class ProductController {
         return "product-list";
     }
 
+    @GetMapping("/product-list1")
+    public String showProducts1(Model model) {
+        List<ProductResponse> products = productService.findAll().stream()
+                .map(productService::convertProductToResponse)
+                .toList();
+        model.addAttribute("products", products);
+        return "product-list1";
+    }
+
     @GetMapping("/{id}/edit")
     public String showEditProductForm(@PathVariable("id") Long id, Model model) {
         Optional<ProductResponse> productResponse = productService.findById(id)

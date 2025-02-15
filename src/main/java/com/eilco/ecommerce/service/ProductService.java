@@ -34,7 +34,7 @@ public class ProductService {
         existingProduct.setPrice(productRequest.getPrice());
         existingProduct.setQuantity(productRequest.getQuantity());
         existingProduct.setActive(productRequest.isActive());
-        existingProduct.setImageurl(productRequest.getImageurl());
+        existingProduct.setImageUrl(productRequest.getImageUrl());
 
         // Update the category reference properly
         if (productRequest.getCategoryId() != null) {
@@ -68,7 +68,7 @@ public class ProductService {
                 .id(id)
                 .name(productRequest.getName())
                 .price(productRequest.getPrice())
-                .imageurl(productRequest.getImageurl())
+                .imageUrl(productRequest.getImageUrl())
                 .quantity(productRequest.getQuantity())
                 .description(productRequest.getDescription())
                 .active(productRequest.isActive())
@@ -82,7 +82,7 @@ public class ProductService {
                 .name(product.getName())
                 .price(product.getPrice())
                 .description(product.getDescription())
-                .imageurl(product.getImageurl())
+                .imageurl(product.getImageUrl())
                 .quantity(product.getQuantity())
                 .active(product.isActive())
                 .categoryName(product.getCategory() != null ? product.getCategory().getName() : null)

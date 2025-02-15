@@ -2,23 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Add Category</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-<h2>Add Category</h2>
+<!-- Navigation Bar -->
+<div class="navbar">
+  <div class="user-info">
+    Welcome, <span th:text="${firstName}">[First Name]</span> <span th:text="${lastName}">[Last Name]</span>!
+  </div>
+  <div class="nav-links">
+    <a href="/categories/category-list">Categories</a>
+    <a href="/products/product-list">Products</a>
+    <a href="/logout">Logout</a>
+  </div>
+</div>
 
-<form th:object="${category}" th:action="@{/categories/add}" method="post">
-  <label for="name">Category Name:</label>
-  <input type="text" id="name" th:field="*{name}" required />
+<div class="container">
+  <h2>Add Category</h2>
 
-  <label for="description">Description:</label>
-  <input type="text" id="description" th:field="*{description}" required />
+  <form th:object="${category}" th:action="@{/categories/add}" method="post">
+    <label for="name">Category Name:</label>
+    <input type="text" id="name" th:field="*{name}" required>
 
-  <button type="submit">Add Category</button>
-</form>
+    <label for="description">Description:</label>
+    <input type="text" id="description" th:field="*{description}" required>
 
+    <button type="submit">Add Category</button>
+  </form>
 
-<a href="/categories/category-list">Back to Category List</a>
+  <br>
+  <a class="btn" href="/categories/category-list">Back to Category List</a>
+</div>
 
 </body>
 </html>

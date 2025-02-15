@@ -48,8 +48,20 @@ public class SecurityConfig {
                         req -> req
                                 .requestMatchers("/", "/index", "/css/**", "/js/**", "/images/**").permitAll()
                                 .requestMatchers("/login/**", "/register/**", "/refresh_token/**").permitAll()
-                                .requestMatchers(HttpMethod.PUT, "/categories/**","/products/**").authenticated()
-                                .requestMatchers("/orders/**").authenticated()
+                                .requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
+
+                                .requestMatchers("/categories/add", "/products/add").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/categories/**", "/products/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/categories/**", "/products/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/categories/**", "/products/**").hasRole("ADMIN")
+
+                                // Order permissions
+                                .requestMatchers("/orders/my-orders", "/orders/create", "/orders/paymentform", "/orders/payment", "/orders/success/**")
+                                .hasRole("USER") // Only users can access their orders and payments
+                                .requestMatchers(HttpMethod.POST, "/orders/create").hasRole("USER") // Users can create orders
+                                .requestMatchers(HttpMethod.POST, "/orders/validate/**").hasRole("ADMIN") // Only admins can validate orders
+                                .requestMatchers(HttpMethod.GET, "/orders/**").hasRole("ADMIN") // Admins can see all orders except /my-orders
+
                                 .anyRequest()
                                 .authenticated()
                 )

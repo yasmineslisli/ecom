@@ -2,8 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Order Success</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+
 </head>
 <body>
+<div class="navbar">
+  <div class="user-info">
+    Welcome, <span th:text="${firstName}">[First Name]</span> <span th:text="${lastName}">[Last Name]</span>!
+  </div>
+  <div class="nav-links">
+    <a href="/categories/category-list">Categories</a>
+    <a href="/products/product-list">Products</a>
+    <a href="/logout">Logout</a>
+  </div>
+</div>
 <h2>Order Created Successfully!</h2>
 <p>Order ID: <span th:text="${orderResponse.id}"></span></p>
 <p>User ID: <span th:text="${orderResponse.userId}"></span></p>

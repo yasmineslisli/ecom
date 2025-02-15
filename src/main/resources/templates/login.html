@@ -4,18 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
+    <link rel="stylesheet" th:href="@{/css/style1.css}">
+
 </head>
 <body>
-<h1>Connexion</h1>
 
-<form action="/login" method="post">
-    <label for="username">Nom d'utilisateur :</label>
-    <input type="text" id="username" name="username" required>
+<h2>Sign in/up Form</h2>
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+            <h1>Create Account</h1>
+            <form action="/register" method="post">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
 
-    <label for="password">Mot de passe :</label>
-    <input type="password" id="password" name="password" required>
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
 
-    <button type="submit">Se connecter</button>
-</form>
+                <label for="username1">Username:</label>
+                <input type="text" id="username1" name="username" required>
+
+                <label for="password1">Password:</label>
+                <input type="password" id="password1" name="password" required>
+
+                <label for="role">Role:</label>
+                <select id="role" name="role" required>
+                    <option value="USER">Customer</option>
+                    <option value="ADMIN">Owner</option>
+                </select>
+
+                <button type="submit">Register</button>
+            </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form action="/login" method="post">
+            <h1>Sign in</h1>
+
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" required>
+            <a href="#">Forgot your password?</a>
+            <button>Sign In</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+                <button class="ghost" id="signIn">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Enter your personal details and start journey with us</p>
+                <button class="ghost" id="signUp">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/js.js"></script>
 </body>
 </html>
+
+

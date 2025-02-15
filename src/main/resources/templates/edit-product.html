@@ -3,8 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+
 </head>
 <body>
+<div class="navbar">
+  <div class="user-info">
+    Welcome, <span th:text="${firstName}">[First Name]</span> <span th:text="${lastName}">[Last Name]</span>!
+  </div>
+  <div class="nav-links">
+    <a href="/categories/category-list">Categories</a>
+    <a href="/products/product-list">Products</a>
+    <a href="/logout">Logout</a>
+  </div>
+</div>
 <form th:object="${product}" th:action="@{/products/{id}/update(id=${product.id})}" method="post">
   <label for="name">Product Name:</label>
   <input type="text" id="name" th:field="*{name}" required />

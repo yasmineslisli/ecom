@@ -2,26 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Edit Category</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div class="navbar">
+  <div class="user-info">
+    Welcome, <span th:text="${firstName}">[First Name]</span> <span th:text="${lastName}">[Last Name]</span>!
+  </div>
+  <div class="nav-links">
+    <a href="/categories/category-list">Categories</a>
+    <a href="/products/product-list">Products</a>
+    <a href="/logout">Logout</a>
+  </div>
+</div>
+<!-- Navigation Bar -->
+<div class="navbar">
+  <div class="user-info">
+    Logged in as: <span th:text="${username}">[Username]</span>
+  </div>
+  <div class="nav-links">
+    <a href="/categories/category-list">Categories</a>
+    <a href="/products/product-list">Products</a>
+    <a href="/logout">Logout</a>
+  </div>
+</div>
 
-<h2>Edit Category</h2>
+<div class="container">
+  <h2>Edit Category</h2>
 
-<form th:object="${category}" th:action="@{/categories/{id}/update(id=${category.id})}" method="post">
-  <!-- Hidden field to allow PUT requests -->
-  <input type="hidden" name="_method" value="put"/>
+  <form th:object="${category}" th:action="@{/categories/{id}/update(id=${category.id})}" method="post">
+    <!-- Hidden field to allow PUT requests -->
+    <input type="hidden" name="_method" value="put"/>
 
-  <label for="name">Category Name:</label>
-  <input type="text" id="name" th:field="*{name}" required />
+    <label for="name">Category Name:</label>
+    <input type="text" id="name" th:field="*{name}" required>
 
-  <label for="description">Description:</label>
-  <input type="text" id="description" th:field="*{description}" required />
+    <label for="description">Description:</label>
+    <input type="text" id="description" th:field="*{description}" required>
 
-  <button type="submit">Update Category</button>
-</form>
+    <button type="submit">Update Category</button>
+  </form>
 
-
-<a href="/categories/category-list">Back to Category List</a>
+  <br>
+  <a class="btn" href="/categories/category-list">Back to Category List</a>
+</div>
 
 </body>
 </html>

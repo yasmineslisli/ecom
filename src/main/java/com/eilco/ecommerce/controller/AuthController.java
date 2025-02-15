@@ -1,6 +1,10 @@
 package com.eilco.ecommerce.controller;
 
+import com.eilco.ecommerce.dto.ProductResponse;
+import com.eilco.ecommerce.service.CategoryService;
+import com.eilco.ecommerce.service.ProductService;
 import jakarta.servlet.http.Cookie;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import com.eilco.ecommerce.dto.AuthResponse;
 import com.eilco.ecommerce.model.entities.User;
@@ -11,10 +15,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class AuthController {
 
     private final AuthService authService;
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private ProductService productService;
 
     public AuthController(AuthService authService) {
         this.authService = authService;
@@ -31,7 +42,7 @@ public class AuthController {
         authService.register(user);
         model.addAttribute("firstName", user.getFirstName());
         model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("username", user.getUsername());
+        model.addAttribute("username1", user.getUsername());
         model.addAttribute("role", user.getRole());
         return "welcome";
     }
@@ -40,6 +51,12 @@ public class AuthController {
     public String login() {
 
         return "login";
+    }
+
+    @GetMapping("/welcome")
+    public String welcome() {
+
+        return "welcome";
     }
 
     @PostMapping("/login")
