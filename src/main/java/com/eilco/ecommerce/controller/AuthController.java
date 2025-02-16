@@ -66,7 +66,6 @@ public class AuthController {
 
             User authenticatedUser = authService.getUserDetails(user.getUsername());
 
-            // Store JWT in a cookie
             Cookie jwtCookie = new Cookie("jwt", authResponse.getAccessToken());
             jwtCookie.setHttpOnly(true);
             jwtCookie.setPath("/");

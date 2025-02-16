@@ -2,20 +2,134 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Payment Form</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/style3.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  /* Reset and base styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
 
+  body {
+    background-color: #f5f5f5;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  /* Navbar styles */
+  .navbar {
+    background-color: #2c3e50;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .user-info {
+    font-size: 1.1rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    background-color: #34495e;
+  }
+
+  /* Main content styles */
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin: 2rem 0;
+    font-size: 1.8rem;
+  }
+
+  /* Form styles */
+  form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+    transition: border-color 0.3s ease;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 1rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #2980b9;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .nav-links {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    form {
+      margin: 1rem;
+    }
+
+  }
+</style>
 </head>
 <body>
-<div class="navbar">
-  <div class="user-info">
-    Welcome, <span th:text="${firstName}">[First Name]</span> <span th:text="${lastName}">[Last Name]</span>!
-  </div>
-  <div class="nav-links">
-    <a href="/categories/category-list">Categories</a>
-    <a href="/products/product-list">Products</a>
-    <a href="/logout">Logout</a>
-  </div>
-</div>
 <h2>Payment for Order <span th:text="${order.orderId}"></span></h2>
 
 <form th:action="@{/orders/payment}" method="post">
@@ -26,8 +140,22 @@
     <option value="CREDIT_CARD">Credit Card</option>
     <option value="PAYPAL">PayPal</option>
   </select>
+    <div class="field-container">
+        <label for="cardnumber">Card Number</label>
+        <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric">
+        <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink">
 
-
+        </svg>
+    </div>
+    <div class="field-container">
+        <label for="expirationdate">Expiration (mm/yy)</label>
+        <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric">
+    </div>
+    <div class="field-container">
+        <label for="securitycode">Security Code</label>
+        <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric">
+    </div>
 
   <button type="submit">Submit Payment</button>
 </form>

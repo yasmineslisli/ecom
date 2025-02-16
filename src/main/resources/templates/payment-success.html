@@ -2,8 +2,152 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Payment Success</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --success-color: #10b981;
+      --text-color: #1f2937;
+      --border-color: #e5e7eb;
+      --background-color: #f9fafb;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.5;
+    }
+
+    .navbar {
+      background-color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .user-info {
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      background-color: var(--background-color);
+      color: var(--primary-color);
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .success-header {
+      color: var(--success-color);
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .success-icon {
+      font-size: 3rem;
+      color: var(--success-color);
+      margin-bottom: 1rem;
+    }
+
+    .order-details {
+      background-color: var(--background-color);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 500;
+      color: #6b7280;
+    }
+
+    .detail-value {
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
 <div class="navbar">
@@ -16,11 +160,29 @@
     <a href="/logout">Logout</a>
   </div>
 </div>
-<h2>Payment Successful!</h2>
-<p>Thank you for your payment for Order <span th:text="${order.orderId}"></span>.</p>
-<p>Total Amount Paid: <span th:text="${order.totalAmount}"></span></p>
-<p>Payment Status: <strong>PAID</strong></p>
 
-<a href="/orders/my-orders">Return to Orders</a>
+<div class="container">
+  <i class="fas fa-check-circle success-icon"></i>
+  <h2 class="success-header">Payment Successful!</h2>
+
+  <div class="order-details">
+    <div class="detail-row">
+      <span class="detail-label">Order ID:</span>
+      <span class="detail-value" th:text="${order.orderId}"></span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Total Amount Paid:</span>
+      <span class="detail-value">€<span th:text="${order.totalAmount}"></span></span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Payment Status:</span>
+      <span class="detail-value"><strong>PAID</strong></span>
+    </div>
+  </div>
+
+  <a href="/orders/my-orders" class="btn btn-primary">
+    <i class="fas fa-box"></i> Return to Orders
+  </a>
+</div>
 </body>
 </html>

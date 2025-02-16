@@ -65,15 +65,7 @@ public class OrderService {
         return convertOrderToResponse(savedOrder);
     }
 
-    private OrderResponse convertOrderToResponse(Order order) {
-        return OrderResponse.builder()
-                .id(order.getOrderId().intValue())
-                .userId(order.getUser().getId())
-                .orderDate(order.getOrderDate())
-                .totalAmount(order.getTotalAmount())
-                .items(order.getOrderItems().stream().map(this::convertOrderItemToResponse).collect(Collectors.toList()))
-                .build();
-    }
+
 
     private OrderItemResponse convertOrderItemToResponse(OrderItem item) {
         return OrderItemResponse.builder()
@@ -125,4 +117,20 @@ public class OrderService {
         return orderRepository.findById(orderId);
     }
 
+    public List<OrderResponse> getAllOrders() {
+        return orderRepository.findAll()
+                .stream()
+                .map(this::convertOrderToResponse)
+                .collect(Collectors.toList());
+    }
+    private OrderResponse convertOrderToResponse(Order order) {
+        return OrderResponse.builder()
+                .id(order.getOrderId().intValue())
+                .userId(order.getUser().getId())
+                .orderDate(order.getOrderDate())
+                .status(order.getStatus())
+                .totalAmount(order.getTotalAmount())
+                .items(order.getOrderItems().stream().map(this::convertOrderItemToResponse).collect(Collectors.toList()))
+                .build();
+    }
 }

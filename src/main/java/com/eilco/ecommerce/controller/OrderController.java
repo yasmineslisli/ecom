@@ -29,26 +29,44 @@ public class OrderController {
     private final PaymentDetailsService paymentDetailsService;
 
     @GetMapping("/create")
-    public String showOrderForm(Model model) {
+    public String showOrderForm(@RequestParam(value = "productId", required = false) Long productId, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         Long userId = userService.getUserIdByUsername(username);
 
         List<Product> products = productService.findAll();
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setUserId(userId);
 
-        model.addAttribute("orderRequest", new OrderRequest());
+        // Only pre-fill product if productId is provided
+        if (productId != null) {
+            OrderItemRequest item = new OrderItemRequest();
+            item.setProductId(productId);
+            item.setQuantity(1); // Default quantity
+            orderRequest.setItems(List.of(item));
+        }
+
+        model.addAttribute("orderRequest", orderRequest);
         model.addAttribute("products", products);
         model.addAttribute("userId", userId);
 
-        return "order-form";
+        return "order-form"; // Show order form
     }
-
 
     @PostMapping("/create")
     public String createOrder(@ModelAttribute OrderRequest orderRequest, Model model) {
-        model.addAttribute("orderResponse", orderService.createOrder(orderRequest));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Long userId = userService.getUserIdByUsername(username);
+
+        orderRequest.setUserId(userId);
+
+        OrderResponse orderResponse = orderService.createOrder(orderRequest);
+        model.addAttribute("orderResponse", orderResponse);
+
         return "order-success";
     }
+
 
     @GetMapping("/my-orders")
     public String viewUserOrders(Model model) {
@@ -62,10 +80,18 @@ public class OrderController {
         return "user-orders";
     }
 
+    @GetMapping("/all-orders")
+    public String viewAllOrders(Model model) {
+        List<OrderResponse> allOrders = orderService.getAllOrders();
+        model.addAttribute("orders", allOrders);
+
+        return "all-orders";
+    }
+
     @PostMapping("/validate/{orderId}")
     public String validateOrder(@PathVariable Long orderId) {
         orderService.validateOrder(orderId);
-        return "redirect:/orders/payment/" + orderId;
+        return "redirect:/orders/all-orders";
     }
 
     @GetMapping("/paymentform")

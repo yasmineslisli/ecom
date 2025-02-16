@@ -108,12 +108,22 @@
                   <h4 class="shirt_text" th:text="${product.name}">Product Name</h4>
                   <p class="price_text">Price <span style="color: #262626;" th:text="'$ ' + ${product.price}">$30</span></p>
                   <div class="tshirt_img">
-                    <img th:src="${product.imageurl}" alt="Product Image">
+                    <img th:src="${product.imageUrl}" alt="Product Image">
                   </div>
                   <div class="btn_main">
-                    <div class="buy_bt"><a href="#">Buy Now</a></div>
-                    <div class="seemore_bt"><a th:href="@{/products/{id}(id=${product.id})}">See More</a></div>
+                    <div th:if="${role != null and #strings.toUpperCase(role) == 'ADMIN'}">
+                      <a th:href="@{/products/{id}/edit(id=${product.id})}" class="edit_bt">Edit</a>
+                    </div>
+
+                    <div th:if="${role == null or #strings.toUpperCase(role) != 'ADMIN'}">
+                      <a th:href="@{/orders/create(productId=${product.id})}" class="buy_bt">Buy Now</a>
+                    </div>
+
+                    <div class="seemore_bt">
+                      <a th:href="@{/products/{id}(id=${product.id})}">See More</a>
+                    </div>
                   </div>
+
                 </div>
               </div>
 
@@ -124,13 +134,7 @@
 
   </div>
 </div>
-<!-- fashion section end -->
-<!-- electronic section start -->
-<!-- electronic section end -->
 
-
-<!-- jewellery  section start -->
-<!-- jewellery  section end -->
 
 <!-- footer section start -->
 <div class="footer_section layout_padding">

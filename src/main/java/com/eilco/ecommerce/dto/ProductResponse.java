@@ -17,7 +17,7 @@ public class ProductResponse {
     private BigDecimal price;
     private int quantity;
     private boolean active = true;
-    private String imageurl;
+    private String imageUrl;
     private Long categoryId;
     private String categoryName;
 }

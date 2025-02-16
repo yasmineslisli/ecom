@@ -51,16 +51,13 @@ public class SecurityConfig {
                                 .requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
 
                                 .requestMatchers("/categories/add", "/products/add").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/categories/**", "/products/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/categories/**", "/products/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/categories/**", "/products/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/categories/**").permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/categories/**", "/products/**").hasRole("ADMIN")
 
-                                // Order permissions
-                                .requestMatchers("/orders/my-orders", "/orders/create", "/orders/paymentform", "/orders/payment", "/orders/success/**")
-                                .hasRole("USER") // Only users can access their orders and payments
-                                .requestMatchers(HttpMethod.POST, "/orders/create").hasRole("USER") // Users can create orders
-                                .requestMatchers(HttpMethod.POST, "/orders/validate/**").hasRole("ADMIN") // Only admins can validate orders
-                                .requestMatchers(HttpMethod.GET, "/orders/**").hasRole("ADMIN") // Admins can see all orders except /my-orders
+                                .requestMatchers("/orders/my-orders", "/orders/create", "/orders/paymentform", "/orders/payment", "/orders/all-orders", "/orders/success/**","/orders/validate","/products/{id}/update","products/{id}/edit").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/orders/create").hasRole("USER")
+                                .requestMatchers(HttpMethod.GET, "/orders/**").hasRole("ADMIN")
 
                                 .anyRequest()
                                 .authenticated()

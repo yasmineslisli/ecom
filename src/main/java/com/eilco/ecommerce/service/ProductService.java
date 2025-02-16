@@ -82,7 +82,7 @@ public class ProductService {
                 .name(product.getName())
                 .price(product.getPrice())
                 .description(product.getDescription())
-                .imageurl(product.getImageUrl())
+                .imageUrl(product.getImageUrl())
                 .quantity(product.getQuantity())
                 .active(product.isActive())
                 .categoryName(product.getCategory() != null ? product.getCategory().getName() : null)

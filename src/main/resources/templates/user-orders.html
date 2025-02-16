@@ -2,51 +2,235 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>My Orders</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --text-color: #1f2937;
+      --border-color: #e5e7eb;
+      --background-color: #f9fafb;
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      color: var(--text-color);
+      background-color: var(--background-color);
+      padding: 2rem;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      color: var(--text-color);
+      font-size: 1.875rem;
+      font-weight: 600;
+    }
+
+    .orders-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .responsive-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .responsive-table th {
+      background-color: var(--background-color);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-color);
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .responsive-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: top;
+    }
+
+    .responsive-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .status-PAID {
+      background-color: #dcfce7;
+      color: var(--success-color);
+    }
+
+    .status-PENDING {
+      background-color: #fef3c7;
+      color: var(--warning-color);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+
+    .order-items {
+      list-style: none;
+    }
+
+    .order-item {
+      background-color: var(--background-color);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .order-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .item-detail {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+    }
+
+    .item-label {
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .item-value {
+      font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+      .responsive-table {
+        display: block;
+      }
+
+      .responsive-table thead {
+        display: none;
+      }
+
+      .responsive-table tbody {
+        display: block;
+      }
+
+      .responsive-table tr {
+        display: block;
+        margin-bottom: 1.5rem;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      }
+
+      .responsive-table td {
+        display: flex;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .responsive-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        width: 120px;
+        min-width: 120px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="navbar">
-  <div class="user-info">
-    Welcome, <span th:text="${firstName}">[First Name]</span> <span th:text="${lastName}">[Last Name]</span>!
-  </div>
-  <div class="nav-links">
-    <a href="/categories/category-list">Categories</a>
-    <a href="/products/product-list">Products</a>
-    <a href="/logout">Logout</a>
-  </div>
+<div class="page-header">
+  <h2>My Orders</h2>
 </div>
-<h2>My Orders</h2>
-<table>
-  <thead>
-  <tr>
-    <th>Order ID</th>
-    <th>Total Amount</th>
-    <th>Status</th>
-    <th>Actions</th>
-    <th>Order Items</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="order : ${orders}">
-    <td th:text="${order.id}"></td>
-    <td th:text="${order.totalAmount}"></td>
-    <td th:text="${order.status}"></td>
-    <td>
-      <a th:if="${order.status.toString() != 'PAID'}" th:href="s@{/orders/paymentform(orderId=${order.id})}">Pay Now</a>
-    </td>
 
-    <td>
-      <ul>
-        <li th:each="item : ${order.items}">
-          <span th:text="'Product: ' + ${item.productName}"></span><br>
-          <span th:text="'Quantity: ' + ${item.quantity}"></span><br>
-          <span th:text="'Price: ' + ${item.price}"></span><br>
-        </li>
-      </ul>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<div class="orders-container">
+  <table class="responsive-table">
+    <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>Total Amount</th>
+      <th>Status</th>
+      <th>Actions</th>
+      <th>Order Items</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+      <td data-label="Order ID" th:text="${order.id}"></td>
+      <td data-label="Total Amount">€<span th:text="${order.totalAmount}"></span></td>
+      <td data-label="Status">
+        <span th:class="'status-badge status-' + ${order.status}" th:text="${order.status}"></span>
+      </td>
+      <td data-label="Actions">
+        <!-- Show "Pay Now" button only if the status is VALIDATED -->
+        <a th:if="${order.status.toString() == 'VALIDATED'}"
+           th:href="@{/orders/paymentform(orderId=${order.id})}"
+           class="btn btn-primary">
+          <i class="fas fa-credit-card"></i> Pay Now
+        </a>
+      </td>
+      <td data-label="Order Items">
+        <ul class="order-items">
+          <li th:each="item : ${order.items}" class="order-item">
+            <div class="item-detail">
+              <span class="item-label">Product:</span>
+              <span class="item-value" th:text="${item.productName}"></span>
+            </div>
+            <div class="item-detail">
+              <span class="item-label">Quantity:</span>
+              <span class="item-value" th:text="${item.quantity}"></span>
+            </div>
+            <div class="item-detail">
+              <span class="item-label">Price:</span>
+              <span class="item-value">€<span th:text="${item.price}"></span></span>
+            </div>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
 </body>
 </html>
