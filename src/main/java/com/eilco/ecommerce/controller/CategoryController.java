@@ -19,7 +19,7 @@ public class CategoryController {
     @GetMapping("/add")
     public String showAddCategoryForm(Model model) {
         model.addAttribute("category", new CategoryRequest());
-        return "add-category";  // Separate view for adding categories
+        return "add-category";
     }
 
     @PostMapping("/add")

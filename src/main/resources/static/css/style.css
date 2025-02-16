@@ -543,10 +543,12 @@ a:hover {
     color: #fff;
 }
 .row1 {
-    display: flex;
+    display: flex
+;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: flex-start;
+    justify-content: center;
+    align-content: center;
 }
 
 /* banner section end */

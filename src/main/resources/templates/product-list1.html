@@ -95,7 +95,9 @@
   <!-- banner section start -->
   <!-- banner section end -->
 </div>
-
+<div class="buynow_bt">
+  <a th:if="${role != null and #strings.toUpperCase(role) == 'ADMIN'}" th:href="@{/products/add}">ADD Product</a>
+</div>
 <div class="fashion_section">
   <div id="main_slider" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">

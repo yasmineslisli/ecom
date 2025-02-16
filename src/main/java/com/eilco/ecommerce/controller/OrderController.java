@@ -38,7 +38,6 @@ public class OrderController {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setUserId(userId);
 
-        // Only pre-fill product if productId is provided
         if (productId != null) {
             OrderItemRequest item = new OrderItemRequest();
             item.setProductId(productId);
@@ -118,8 +117,8 @@ public class OrderController {
         Order order = orderService.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + orderId));
 
-        model.addAttribute("order", order); // Ensure order is in the model
-        return "payment-success"; // Ensure the template exists
+        model.addAttribute("order", order);
+        return "payment-success";
     }
 
 

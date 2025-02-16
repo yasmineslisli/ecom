@@ -50,10 +50,10 @@ public class SecurityConfig {
                                 .requestMatchers("/login/**", "/register/**", "/refresh_token/**").permitAll()
                                 .requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
 
-                                .requestMatchers("/categories/add", "/products/add").hasRole("ADMIN")
+                                .requestMatchers("/categories/add", "/products/add").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/categories/**", "/products/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/categories/**").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/categories/**", "/products/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/categories/**", "/products/**").permitAll()
 
                                 .requestMatchers("/orders/my-orders", "/orders/create", "/orders/paymentform", "/orders/payment", "/orders/all-orders", "/orders/success/**","/orders/validate","/products/{id}/update","products/{id}/edit").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/orders/create").hasRole("USER")
