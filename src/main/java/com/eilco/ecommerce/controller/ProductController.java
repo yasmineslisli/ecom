@@ -13,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -39,21 +41,22 @@ public class ProductController {
     @GetMapping("/product-list1")
     public String showProducts1(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         String role = authentication.getAuthorities().stream()
                 .findFirst()
                 .map(GrantedAuthority::getAuthority)
                 .orElse(null);
 
-        List<ProductResponse> products = productService.findAll().stream()
+        // Get all products and group them by category
+        Map<String, List<ProductResponse>> productsByCategory = productService.findAll().stream()
                 .map(productService::convertProductToResponse)
-                .toList();
+                .collect(Collectors.groupingBy(ProductResponse::getCategoryName));
 
-        model.addAttribute("products", products);
+        model.addAttribute("productsByCategory", productsByCategory);
         model.addAttribute("role", role);
 
         return "product-list1";
     }
+
 
 
     @GetMapping("/{id}/edit")

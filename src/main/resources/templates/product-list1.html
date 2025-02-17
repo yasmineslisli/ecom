@@ -98,15 +98,22 @@
 <div class="buynow_bt">
   <a th:if="${role != null and #strings.toUpperCase(role) == 'ADMIN'}" th:href="@{/products/add}">ADD Product</a>
 </div>
+<div class="buynow_bt">
+  <a th:if="${role != null and #strings.toUpperCase(role) == 'ADMIN'}" th:href="@{/categories/add}">ADD Category</a>
+</div>
+
 <div class="fashion_section">
   <div id="main_slider" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <div class="container">
-          <h1 class="fashion_taital">Man & Woman Fashion</h1>
           <div class="fashion_section_2">
-            <div class="row1">
-                <div class="box_main"th:each="product : ${products}">
+            <!-- Loop through each category -->
+            <div th:each="entry : ${productsByCategory}">
+              <h1 class="fashion_taital" th:text="${entry.key}">Category Name</h1>
+              <div class="row1">
+                <!-- Loop through products inside this category -->
+                <div class="box_main" th:each="product : ${entry.value}">
                   <h4 class="shirt_text" th:text="${product.name}">Product Name</h4>
                   <p class="price_text">Price <span style="color: #262626;" th:text="'$ ' + ${product.price}">$30</span></p>
                   <div class="tshirt_img">
@@ -125,9 +132,9 @@
                       <a th:href="@{/products/{id}(id=${product.id})}">See More</a>
                     </div>
                   </div>
-
                 </div>
-              </div>
+              </div> <!-- End of row1 -->
+            </div> <!-- End of category loop -->
 
           </div>
         </div>

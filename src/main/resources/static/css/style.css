@@ -491,9 +491,11 @@ a:hover {
     text-align: center;
 }
 
+
 .buynow_bt {
     width: 170px;
-    margin: 0 auto;
+    margin-top: 100px;
+    margin-left: 550px;
     padding-top: 30px;
 }
 
@@ -543,8 +545,7 @@ a:hover {
     color: #fff;
 }
 .row1 {
-    display: flex
-;
+    display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
