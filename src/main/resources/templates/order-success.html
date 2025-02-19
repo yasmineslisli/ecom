@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 
   <style>
     :root {
@@ -190,15 +191,36 @@
   </style>
 </head>
 <body>
-<div class="navbar">
-  <div class="user-info">
-    Welcome, <span th:text="${firstName}">[First Name]</span> <span th:text="${lastName}">[Last Name]</span>!
+<div class="banner_bg_main">
+  <!-- header top section start -->
+  <div class="container">
+    <div class="header_section_top">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="custom_menu">
+            <ul>
+              <li><a href="/welcome">Home</a></li>
+              <li><a href="/categories/category-list" th:if="${role == 'ADMIN'}">Categories</a></li>
+              <li><a href="/products/product-list1">Products</a></li>
+              <li><a href="/orders/my-orders" th:if="${role == 'USER'}"> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <span class="padding_10">My Orders</span></a></li>
+              <li><a href="/orders/all-orders" th:if="${role == 'ADMIN'}"> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <span class="padding_10">All orders</span></a></li>
+              <li><a href="/products/add" th:if="${role == 'ADMIN'}"> <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="padding_10">Product</span></a></li>
+              <li><a href="/categories/add" th:if="${role == 'ADMIN'}"> <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="padding_10">Category</span></a></li>
+              <li><a href="/login">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span class="padding_10">Logout</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="nav-links">
-    <a href="/categories/category-list">Categories</a>
-    <a href="/products/product-list">Products</a>
-    <a href="/logout">Logout</a>
-  </div>
+
 </div>
 
 <div class="container">

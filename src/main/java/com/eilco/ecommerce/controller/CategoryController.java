@@ -4,6 +4,9 @@ import com.eilco.ecommerce.dto.CategoryRequest;
 import com.eilco.ecommerce.model.entities.Category;
 import com.eilco.ecommerce.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,12 @@ public class CategoryController {
 
     @GetMapping("/add")
     public String showAddCategoryForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role = authentication.getAuthorities().stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElse(null);
+        model.addAttribute("role", role);
         model.addAttribute("category", new CategoryRequest());
         return "add-category";
     }
@@ -30,12 +39,24 @@ public class CategoryController {
 
     @GetMapping("/category-list")
     public String showCategories(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role = authentication.getAuthorities().stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElse(null);
+        model.addAttribute("role", role);
         model.addAttribute("categories", categoryService.getAllCategories());
         return "category-list";
     }
 
     @GetMapping("/{id}/edit")
     public String showEditCategoryForm(@PathVariable("id") Long id, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role = authentication.getAuthorities().stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElse(null);
+        model.addAttribute("role", role);
         Optional<Category> category = categoryService.findById(id);
         if (category.isPresent()) {
             CategoryRequest categoryRequest = new CategoryRequest();

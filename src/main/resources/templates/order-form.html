@@ -37,6 +37,98 @@
   <link rel="stylesheet" th:href="@{css/owl.carousel.min.css}">
   <link rel="stylesoeet" th:href="@{css/owl.theme.default.min.css}">
   <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css}" media="screen">
+  <style>
+    /* header top section start */
+
+    .header_section_top {
+      width: 100%;
+      float: left;
+      background-color: #2b2a29;
+      clip-path: polygon(0 0, 100% 0, 96% 100%, 3% 100%);
+      height: auto;
+      padding: 10px 0px;
+    }
+
+    .custom_menu {
+      width: 100%;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .custom_menu ul {
+      margin: 0px;
+      padding: 0px;
+      display: inline-block;
+    }
+
+    .custom_menu li {
+      float: left;
+      font-size: 16px;
+      color: #f1f1f1;
+      padding: 6px 10px 0px 10px;
+    }
+
+    .custom_menu li a {
+      color: #f1f1f1;
+      text-decoration: none;
+    }
+
+    .custom_menu li a:hover {
+      color: #f26522;
+    }
+    ul,
+    li,
+    ol {
+      margin: 0px;
+      padding: 0px;
+      list-style: none;
+    }
+
+    .header_section_top {
+      width: 100%;
+      float: left;
+      background-color: #2b2a29;
+      clip-path: polygon(0 0, 100% 0, 96% 100%, 3% 100%);
+      height: auto;
+      padding: 10px 0px;
+    }
+
+    .custom_menu {
+      width: 100%;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .custom_menu ul {
+      margin: 0px;
+      padding: 0px;
+      display: inline-block;
+    }
+
+    .custom_menu li {
+      float: left;
+      font-size: 16px;
+      color: #f1f1f1;
+      padding: 6px 10px 0px 10px;
+    }
+
+    .custom_menu li a {
+      color: #f1f1f1;
+      text-decoration: none;
+    }
+
+    .custom_menu li a:hover {
+      color: #f26522;
+    }
+    ul,
+    li,
+    ol {
+      margin: 0px;
+      padding: 0px;
+      list-style: none;
+    }
+
+  </style>
 </head>
 
 <body>
@@ -48,43 +140,20 @@
         <div class="col-sm-12">
           <div class="custom_menu">
             <ul>
-              <li><a href="#">Best Sellers</a></li>
-              <li><a href="#">Gift Ideas</a></li>
-              <li><a href="#">New Releases</a></li>
-              <li><a href="#">Today's Deals</a></li>
-              <li><a href="#">Customer Service</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- header top section start -->
-  <!-- logo section start -->
-  <!-- logo section end -->
-  <!-- header section start -->
-  <div class="header_section">
-    <div class="container">
-      <div class="containt_main">
-        <div id="mySidenav" class="sidenav">
-          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-          <a href="index.html">Home</a>
-          <a href="fashion.html">Fashion</a>
-          <a href="electronic.html">Electronic</a>
-          <a href="jewellery.html">Jewellery</a>
-        </div>
-
-        <div class="header_box">
-
-          <div class="login_menu">
-            <ul>
-              <li><a href="#">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                <span class="padding_10">Cart</span></a>
-              </li>
-              <li><a href="#">
+              <li><a href="/welcome">Home</a></li>
+              <li><a href="/categories/category-list" th:if="${role == 'ADMIN'}">Categories</a></li>
+              <li><a href="/products/product-list1">Products</a></li>
+              <li><a href="/orders/my-orders" th:if="${role == 'USER'}"> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <span class="padding_10">My Orders</span></a></li>
+              <li><a href="/orders/all-orders" th:if="${role == 'ADMIN'}"> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <span class="padding_10">All orders</span></a></li>
+              <li><a href="/products/add" th:if="${role == 'ADMIN'}"> <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="padding_10">Product</span></a></li>
+              <li><a href="/categories/add" th:if="${role == 'ADMIN'}"> <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="padding_10">Category</span></a></li>
+              <li><a href="/login">
                 <i class="fa fa-user" aria-hidden="true"></i>
-                <span class="padding_10">Profile</span></a>
+                <span class="padding_10">Logout</span></a>
               </li>
             </ul>
           </div>
@@ -92,9 +161,7 @@
       </div>
     </div>
   </div>
-  <!-- header section end -->
-  <!-- banner section start -->
-  <!-- banner section end -->
+
 </div>
 
 <div class="fashion_section">

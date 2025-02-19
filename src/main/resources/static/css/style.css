@@ -494,9 +494,7 @@ a:hover {
 
 .buynow_bt {
     width: 170px;
-    margin-top: 100px;
     margin-left: 550px;
-    padding-top: 30px;
 }
 
 .buynow_bt a {
@@ -979,7 +977,7 @@ input.mail_bt::placeholder {
 
 
 .shirt_text {
-    color: #2c3e50;
+    color: #ffbd41;
     margin-bottom: 1rem;
     font-weight: 600;
 }

@@ -27,6 +27,12 @@ public class ProductController {
 
     @GetMapping("/add")
     public String showAddProductForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role = authentication.getAuthorities().stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElse(null);
+        model.addAttribute("role", role);
         model.addAttribute("product", new ProductRequest());
         model.addAttribute("categories", categoryService.findAll()); // Pass categories to the form
         return "add-product";
@@ -61,6 +67,12 @@ public class ProductController {
 
     @GetMapping("/{id}/edit")
     public String showEditProductForm(@PathVariable("id") Long id, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role = authentication.getAuthorities().stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElse(null);
+        model.addAttribute("role", role);
         Optional<ProductResponse> productResponse = productService.findById(id)
                 .map(productService::convertProductToResponse);
 

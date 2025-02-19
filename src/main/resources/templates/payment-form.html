@@ -4,7 +4,9 @@
   <title>Payment Form</title>
   <link rel="stylesheet" th:href="@{/css/style3.css}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
   /* Reset and base styles */
   * {
     margin: 0;
@@ -54,7 +56,7 @@
   /* Main content styles */
   h2 {
     text-align: center;
-    color: #2c3e50;
+    color: #ffbd41;
     margin: 2rem 0;
     font-size: 1.8rem;
   }
@@ -73,7 +75,7 @@
     display: block;
     margin-bottom: 0.5rem;
     font-weight: bold;
-    color: #2c3e50;
+    color: #ffbd41;
   }
 
   select {
@@ -130,6 +132,38 @@
 </style>
 </head>
 <body>
+<div class="banner_bg_main">
+    <!-- header top section start -->
+    <div class="container">
+        <div class="header_section_top">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="custom_menu">
+                        <ul>
+                            <li><a href="/welcome">Home</a></li>
+                            <li><a href="/categories/category-list" th:if="${role == 'ADMIN'}">Categories</a></li>
+                            <li><a href="/products/product-list1">Products</a></li>
+                            <li><a href="/orders/my-orders" th:if="${role == 'USER'}"> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <span class="padding_10">My Orders</span></a></li>
+                            <li><a href="/orders/all-orders" th:if="${role == 'ADMIN'}"> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <span class="padding_10">All orders</span></a></li>
+                            <li><a href="/products/add" th:if="${role == 'ADMIN'}"> <i class="fa fa-plus" aria-hidden="true"></i>
+                                <span class="padding_10">Product</span></a></li>
+                            <li><a href="/categories/add" th:if="${role == 'ADMIN'}"> <i class="fa fa-plus" aria-hidden="true"></i>
+                                <span class="padding_10">Category</span></a></li>
+                            <li><a href="/login">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <span class="padding_10">Logout</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <h2>Payment for Order <span th:text="${order.orderId}"></span></h2>
 
 <form th:action="@{/orders/payment}" method="post">
