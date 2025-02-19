@@ -140,7 +140,6 @@ body {
 
 .btn-primary {
     background-color: var(--primary-color);
-    color: white;
 }
 
 .btn-primary:hover {
